@@ -31,7 +31,7 @@ with col1:
 with col2:
     st.subheader("📄 Live Preview")
 
-    highlighted_amount = f'<span style="background-color:#cce5ff; color:#004085; padding:2px 6px; border-radius:3px; font-weight:bold; -webkit-print-color-adjust: exact;">{amount_num} ({amount_words})</span>'
+    highlighted_amount = f'<span style="background-color:#cce5ff; color:#004085; padding:3px 8px; border-radius:4px; font-weight:bold; -webkit-print-color-adjust: exact;">{amount_num} ({amount_words})</span>'
 
     # Build Letter HTML
     letter_html = f"""
@@ -45,87 +45,115 @@ with col2:
                 print-color-adjust: exact !important;
                 box-sizing: border-box;
             }}
+            
+            @page {{
+                size: A4 portrait;
+                margin: 0;
+            }}
+
             body {{
                 font-family: Arial, sans-serif;
                 margin: 0;
-                padding: 10px;
+                padding: 0;
                 background-color: #ffffff;
+                color: #000;
             }}
+
             .letter-box {{
-                border: 1px solid #ddd;
-                background: #fff;
-                max-width: 800px;
+                width: 100%;
+                max-width: 850px;
+                min-height: 100vh;
                 margin: 0 auto;
+                background: #fff;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border: 1px solid #ddd;
             }}
+
+            .content-body {{
+                padding: 35px 45px;
+                flex-grow: 1;
+            }}
+
             @media print {{
-                body {{ padding: 0; }}
-                .letter-box {{ border: none; }}
+                body {{
+                    padding: 0;
+                }}
+                .letter-box {{
+                    border: none !important;
+                    max-width: 100% !important;
+                    min-height: 100vh !important;
+                    box-shadow: none !important;
+                }}
             }}
         </style>
     </head>
     <body>
         <div class="letter-box">
-            <!-- Header -->
-            <div style="background: linear-gradient(135deg, #002b80, #0052cc) !important; color:white !important; padding:18px 20px; border-bottom: 4px solid #ff9900;">
-                <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold;">
-                    <span style="border:1px solid rgba(255,255,255,0.5); padding:2px 6px; border-radius:10px;">GSTIN: 10CJAPK9167R1ZQ</span>
-                    <span>📞 +91 8541887622</span>
+            <div>
+                <!-- Vibrant Blue Header -->
+                <div style="background: linear-gradient(135deg, #002b80, #0052cc) !important; color:white !important; padding:25px 30px; border-bottom: 5px solid #ff9900;">
+                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:bold; align-items:center;">
+                        <span style="border:1px solid rgba(255,255,255,0.5); padding:3px 10px; border-radius:12px;">GSTIN: 10CJAPK9167R1ZQ</span>
+                        <span style="font-size:13px;">📞 +91 8541887622</span>
+                    </div>
+                    <h1 style="margin:14px 0 8px 0; text-align:center; font-size:32px; color:#ffffff !important; letter-spacing:2px; font-weight:800;">KOSHI ENTERPRISES</h1>
+                    <div style="display:flex; justify-content:space-between; font-size:11.5px; margin-top:10px; opacity:0.95;">
+                        <span>📍 Sukhasan Uttarwari, Ward No.- 07, Near Kali Sthan, Madhepura, Bihar - 852113</span>
+                        <span>✉️ chandrasukhasan@gmail.com</span>
+                    </div>
                 </div>
-                <h1 style="margin:10px 0 5px 0; text-align:center; font-size:24px; color:#ffffff !important; letter-spacing:1px; font-weight:800;">KOSHI ENTERPRISES</h1>
-                <div style="display:flex; justify-content:space-between; font-size:10px; margin-top:6px;">
-                    <span>📍 Sukhasan Uttarwari, Ward No.- 07, Near Kali Sthan, Madhepura, Bihar - 852113</span>
-                    <span>✉️ chandrasukhasan@gmail.com</span>
-                </div>
-            </div>
 
-            <div style="padding: 20px;">
-                <!-- Patrank & Date -->
-                <div style="display:flex; justify-content:space-between; font-size:13.5px; margin-top:5px;">
-                    <p style="margin:0;"><b>पत्रांक :-</b> {patrank}</p>
-                    <p style="margin:0;"><b>दिनांक :-</b> {tarikh}</p>
-                </div>
-                
-                <!-- Address -->
-                <p style="font-size:13.5px; margin-top:18px; line-height:1.5;"><b>सेवा में,</b><br>{seva_me.replace('\n', '<br>')}</p>
-                
-                <!-- Subject Box -->
-                <div style="background-color:#f0f4f9 !important; padding:10px 12px; border-left:4px solid #0052cc; border-radius:4px; font-size:13px; margin:18px 0; line-height:1.5;">
-                    <b>विषय :- {vishay}</b>
-                </div>
-                
-                <!-- Body -->
-                <p style="font-size:13.5px; margin-bottom:8px;"><b>महाशय,</b></p>
-                <p style="line-height:1.7; font-size:13.5px; margin-top:0; text-align:justify;">{patra_vivran.replace('\n', '<br>')}</p>
-                
-                <p style="line-height:1.7; font-size:13.5px; text-align:justify;">
-                    उक्त सामग्रियों की आपूर्ति के पश्चात कुल व्यय राशि {highlighted_amount} का बिल भुगतान हेतु तैयार किया गया है। सामग्रियों की विवरणी एवं मूल विपत्र (Original Bill) इस आवेदन के साथ संलग्न है।
-                </p>
-                
-                <p style="line-height:1.7; font-size:13.5px; text-align:justify;">
-                    अतः श्रीमान से विनम्र प्रार्थना है कि सामग्रियों के सत्यापन उपरांत कोशी इंटरप्राइजेज, मधेपुरा को कुल राशि {highlighted_amount} के भुगतान की स्वीकृति प्रदान करने की कृपा की जाए। इसके लिए हम सदैव आपके आभारी रहेंगे।
-                </p>
-
-                <!-- Bank Details & Signature -->
-                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:25px;">
-                    <div style="background-color:#f8f9fa !important; border:1px solid #dce4ec; border-radius:6px; padding:10px 12px; width:56%;">
-                        <h4 style="margin:0 0 8px 0; color:#0052cc !important; font-size:13px;">🏦 भुगतान हेतु बैंक विवरण (Bank Details)</h4>
-                        <table style="font-size:11.5px; width:100%; border-collapse:collapse; line-height:1.5;">
-                            <tr><td style="width:40%;"><b>बैंक का नाम:</b></td><td><b>HDFC MADHEPURA</b></td></tr>
-                            <tr><td><b>खाता संख्या:</b></td><td><b>50200099372362</b></td></tr>
-                            <tr><td><b>आईएफएससी कोड:</b></td><td><b>HDFC0002353</b></td></tr>
-                        </table>
+                <div class="content-body">
+                    <!-- Patrank & Date -->
+                    <div style="display:flex; justify-content:space-between; font-size:15px; margin-top:10px; font-weight:600;">
+                        <p style="margin:0;"><b>पत्रांक :-</b> {patrank}</p>
+                        <p style="margin:0;"><b>दिनांक :-</b> {tarikh}</p>
                     </div>
                     
-                    <div style="text-align:center; font-size:13px; width:38%;">
-                        <p style="margin-bottom:40px;"><b>विश्वासभाजन</b></p>
-                        <p style="margin:0; font-weight:bold; font-size:13.5px;">कोशी इंटरप्राइजेज</p>
-                        <p style="margin:2px 0 0 0; font-size:11px; color:#555;">मधेपुरा (बिहार)</p>
+                    <!-- Address -->
+                    <p style="font-size:15px; margin-top:30px; line-height:1.7;"><b>सेवा में,</b><br>{seva_me.replace('\n', '<br>')}</p>
+                    
+                    <!-- Subject Box -->
+                    <div style="background-color:#f0f4f9 !important; padding:15px 18px; border-left:6px solid #0052cc; border-radius:5px; font-size:15px; margin:30px 0; line-height:1.6;">
+                        <b>विषय :- {vishay}</b>
+                    </div>
+                    
+                    <!-- Body -->
+                    <p style="font-size:15px; margin-bottom:12px;"><b>महाशय,</b></p>
+                    <p style="line-height:2.0; font-size:15px; margin-top:0; text-align:justify;">{patra_vivran.replace('\n', '<br>')}</p>
+                    
+                    <p style="line-height:2.0; font-size:15px; text-align:justify; margin-top:18px;">
+                        उक्त सामग्रियों की आपूर्ति के पश्चात कुल व्यय राशि {highlighted_amount} का बिल भुगतान हेतु तैयार किया गया है। सामग्रियों की विवरणी एवं मूल विपत्र (Original Bill) इस आवेदन के साथ संलग्न है।
+                    </p>
+                    
+                    <p style="line-height:2.0; font-size:15px; text-align:justify; margin-top:18px;">
+                        अतः श्रीमान से विनम्र प्रार्थना है कि सामग्रियों के सत्यापन उपरांत कोशी इंटरप्राइजेज, मधेपुरा को कुल राशि {highlighted_amount} के भुगतान की स्वीकृति प्रदान करने की कृपा की जाए। इसके लिए हम सदैव आपके आभारी रहेंगे।
+                    </p>
+
+                    <!-- Bank Details & Signature -->
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:55px;">
+                        <div style="background-color:#f8f9fa !important; border:1px solid #dce4ec; border-radius:8px; padding:16px 20px; width:54%;">
+                            <h4 style="margin:0 0 12px 0; color:#0052cc !important; font-size:15px;">🏦 भुगतान हेतु बैंक विवरण (Bank Details)</h4>
+                            <table style="font-size:13.5px; width:100%; border-collapse:collapse; line-height:1.8;">
+                                <tr><td style="width:38%;"><b>बैंक का नाम:</b></td><td><b>HDFC MADHEPURA</b></td></tr>
+                                <tr><td><b>खाता संख्या:</b></td><td><b>50200099372362</b></td></tr>
+                                <tr><td><b>आईएफएससी कोड:</b></td><td><b>HDFC0002353</b></td></tr>
+                            </table>
+                        </div>
+                        
+                        <div style="text-align:center; font-size:15px; width:38%;">
+                            <p style="margin-bottom:65px;"><b>विश्वासभाजन</b></p>
+                            <p style="margin:0; font-weight:bold; font-size:16px;">कोशी इंटरप्राइजेज</p>
+                            <p style="margin:4px 0 0 0; font-size:12.5px; color:#555;">मधेपुरा (बिहार)</p>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <!-- Footer Strip -->
-            <div style="background-color:#001a4d !important; color:white !important; text-align:center; padding:8px; font-size:10px;">
+            <div style="background-color:#001a4d !important; color:white !important; text-align:center; padding:12px; font-size:11px; letter-spacing:0.5px;">
                 KOSHI ENTERPRISES • Sukhasan Uttarwari, Ward No. 07, Madhepura, Bihar - 852113
             </div>
         </div>
@@ -133,7 +161,7 @@ with col2:
     </html>
     """
 
-    # Direct Native Streamlit Download Button (Avoids Browser Crash)
+    # Direct Native Streamlit Download Button
     st.download_button(
         label="📥 Save / Download Letter File",
         data=letter_html,
@@ -142,7 +170,7 @@ with col2:
         use_container_width=True
     )
     
-    st.caption("💡 **Print Karne Ka Tarika:** Upar 'Save / Download Letter File' par click karke file download karein, phir use khol kar Chrome menu (3 dots) -> Print par daba dein. Bilkul perfect A4 PDF ban jayegi!")
+    st.caption("💡 **Print Tip:** File download karke browser me kholein aur Print (Share -> Print) par click karein. A4 me poora perfect fit aayega!")
 
     # Display Preview
-    components.html(letter_html, height=800, scrolling=True)
+    components.html(letter_html, height=850, scrolling=True)
