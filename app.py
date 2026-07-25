@@ -35,7 +35,7 @@ with col2:
 
     html_content = f"""
     <div style="margin-bottom: 10px;">
-        <button onclick="window.print()" style="background-color:#224099; color:white; border:none; padding:10px 20px; font-size:14px; border-radius:5px; cursor:pointer; font-weight:bold;">
+        <button onclick="window.parent.print()" style="background-color:#224099; color:white; border:none; padding:10px 20px; font-size:14px; border-radius:5px; cursor:pointer; font-weight:bold;">
             🖨️ Download / Print PDF
         </button>
     </div>
