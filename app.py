@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="KOSHI ENTERPRISES Letter Generator", page_icon="📝", layout="wide")
 
@@ -29,60 +30,41 @@ with col1:
 
 with col2:
     st.subheader("📄 Live Preview")
-    
+
     highlighted_amount = f'<span style="background-color:#cce5ff; color:#004085; padding:2px 6px; border-radius:3px; font-weight:bold; -webkit-print-color-adjust: exact;">{amount_num} ({amount_words})</span>'
 
-    html_content = f"""
+    # Build Letter HTML
+    letter_html = f"""
+    <!DOCTYPE html>
     <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
         <style>
             * {{
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 box-sizing: border-box;
             }}
-            
             body {{
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: Arial, sans-serif;
                 margin: 0;
-                padding: 0;
+                padding: 10px;
                 background-color: #ffffff;
             }}
-
-            .a4-container {{
-                width: 100%;
+            .letter-box {{
+                border: 1px solid #ddd;
+                background: #fff;
                 max-width: 800px;
                 margin: 0 auto;
-                background: #ffffff;
-                border: 1px solid #ddd;
             }}
-
-            .content-wrapper {{
-                padding: 20px;
-            }}
-
             @media print {{
-                .no-print {{
-                    display: none !important;
-                }}
-                .a4-container {{
-                    border: none !important;
-                    width: 100% !important;
-                    max-width: 100% !important;
-                }}
+                body {{ padding: 0; }}
+                .letter-box {{ border: none; }}
             }}
         </style>
     </head>
     <body>
-        <!-- Print Button Always Visible -->
-        <div class="no-print" style="margin-bottom: 12px; position: sticky; top: 0; background: #fff; z-index: 99; padding: 5px 0;">
-            <button onclick="window.print()" style="background-color:#0052cc; color:white; border:none; padding:12px 20px; font-size:15px; border-radius:6px; cursor:pointer; font-weight:bold; width: 100%; max-width: 250px;">
-                🖨️ Download / Print PDF
-            </button>
-        </div>
-        
-        <div class="a4-container">
+        <div class="letter-box">
             <!-- Header -->
             <div style="background: linear-gradient(135deg, #002b80, #0052cc) !important; color:white !important; padding:18px 20px; border-bottom: 4px solid #ff9900;">
                 <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold;">
@@ -96,7 +78,7 @@ with col2:
                 </div>
             </div>
 
-            <div class="content-wrapper">
+            <div style="padding: 20px;">
                 <!-- Patrank & Date -->
                 <div style="display:flex; justify-content:space-between; font-size:13.5px; margin-top:5px;">
                     <p style="margin:0;"><b>पत्रांक :-</b> {patrank}</p>
@@ -150,4 +132,17 @@ with col2:
     </body>
     </html>
     """
-    st.components.v1.html(html_content, height=850, scrolling=True)
+
+    # Direct Native Streamlit Download Button (Avoids Browser Crash)
+    st.download_button(
+        label="📥 Save / Download Letter File",
+        data=letter_html,
+        file_name="Koshi_Enterprises_Letter.html",
+        mime="text/html",
+        use_container_width=True
+    )
+    
+    st.caption("💡 **Print Karne Ka Tarika:** Upar 'Save / Download Letter File' par click karke file download karein, phir use khol kar Chrome menu (3 dots) -> Print par daba dein. Bilkul perfect A4 PDF ban jayegi!")
+
+    # Display Preview
+    components.html(letter_html, height=800, scrolling=True)
