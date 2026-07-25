@@ -34,6 +34,12 @@ with col2:
     highlighted_amount = f'<span style="background-color:#cce5ff; color:#004085; padding:2px 6px; border-radius:3px; font-weight:bold;">{amount_num} ({amount_words})</span>'
 
     html_content = f"""
+    <div style="margin-bottom: 10px;">
+        <button onclick="window.print()" style="background-color:#224099; color:white; border:none; padding:10px 20px; font-size:14px; border-radius:5px; cursor:pointer; font-weight:bold;">
+            🖨️ Download / Print PDF
+        </button>
+    </div>
+    
     <div style="border:1px solid #ddd; padding:20px; font-family:sans-serif; background-color:#fff; color:#000;">
         <!-- Header -->
         <div style="background: linear-gradient(135deg, #0d324d, #224099); color:white; padding:15px; border-radius:4px;">
@@ -100,4 +106,4 @@ with col2:
         </div>
     </div>
     """
-    st.components.v1.html(html_content, height=750, scrolling=True)
+    st.components.v1.html(html_content, height=800, scrolling=True)
